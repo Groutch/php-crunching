@@ -13,21 +13,47 @@
         $string = file_get_contents("dictionnaire.txt", FILE_USE_INCLUDE_PATH);
         $dico = explode("\n", $string);
         //print_r($dico);
-        echo "Nombre de mot dans le dictionnaire: ".count($dico)."<br>";
+        //declaration d'un certain nombre de fonctions
+        //fonction: un mot contient-il 15 lettres?
         function is15 ($vStr){
             return strlen($vStr)==15;
         }
-        echo "Nombre de mot de 15 caractères: ".count(array_filter($dico, "is15"))."<br>";
-    
+        //fonction: un mot contient-il un W?
         function containW ($vStr){
             return (strpos($vStr,'w')!==false);
         }
-        echo "Nombre de mot contenant la lettre W: ".count(array_filter($dico,'containW'))."<br>";
-    
+        //fonction: un mot se finit-il par q ?
         function endsWithQ ($vStr){
             return substr($vStr, -1)=='q';
         }
-        echo "Nombre de mot finissant par Q: ".count(array_filter($dico,'endsWithQ'))."<br>";
+        function getWordData($file){
+            if(count($file)==0){
+                throw new Exception($file." est vide");
+            }else{
+                echo "Nombre de mot dans le dictionnaire: ".count($file)."<br>";
+                
+                
+                echo "Nombre de mot de 15 caractères: ".count(array_filter($file, "is15"))."<br>";
+
+                
+                echo "Nombre de mot contenant la lettre W: ".count(array_filter($file,'containW'))."<br>";
+
+                
+                echo "Nombre de mot finissant par Q: ".count(array_filter($file,'endsWithQ'))."<br>";
+            }
+        }
+        //on teste avec un tableau de mot vide.
+        try{
+            getWordData([]);
+        }catch(Exception $e){
+            echo "!! CECI EST UNE EXCEPTION !! Comme c'est embarassant : ",  $e->getMessage(), "<br>";
+        }
+        //on teste avec un tableau de mot PAS vide.
+        try{
+            getWordData($dico);
+        }catch(Exception $e){
+            echo "!! CECI EST UNE EXCEPTION !! Comme c'est embarassant : ",  $e->getMessage(), "<br>";
+        }
         
         $string = file_get_contents("films.json", FILE_USE_INCLUDE_PATH);
         $brut = json_decode($string, true);
@@ -39,7 +65,7 @@
         echo "<h2>classement du film « Gravity »</h2>";
         foreach ($top as $idx => $value){
             if($value['im:name']['label']=="Gravity"){
-                echo $idx;
+                echo $idx+1;
             }
         }
         echo "<br>";

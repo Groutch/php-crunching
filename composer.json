@@ -6,5 +6,8 @@
             "email": "hurizen1@hotmail.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^6"
+    }
 }
